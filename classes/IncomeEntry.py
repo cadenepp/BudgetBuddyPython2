@@ -2,9 +2,9 @@ from classes.Entry import Entry
 
 class IncomeEntry(Entry):
 
-    def __init__(self, amount, description, incomes):
+    def __init__(self, amount, description, income):
         Entry.__init__(self, amount, description)
-        self.incomes = incomes
+        self.income = income
 
     def get_amount(self):
         return self.amount

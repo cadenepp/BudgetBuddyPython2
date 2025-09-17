@@ -2,10 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Base</title>
     <link href="../static/styles.css" rel="stylesheet">
 </head>
 <body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="summary">Summary</a>
+    </nav>
+    <hr>
 
+    {% block content %}
+
+    {% endblock %}
+
+    <hr>
+    <footer>
+        <p>Copyright: Budget Buddy 2025</p>
+        <p>Caden and Katra - Python 2</p>
+    </footer>
 </body>
 </html>
