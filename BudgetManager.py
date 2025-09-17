@@ -13,13 +13,13 @@ class BudgetManager:
     def get_total_income(self):
         total = 0
         for income in self.incomes:
-            total += income.income
+            total += income.get_amount()
         return total
 
     def get_total_expense(self):
         total = 0
         for expense in self.expenses:
-            total += expense.expense
+            total += expense.get_amount()
         return total
 
     def get_net_total(self):

@@ -3,27 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Budget Buddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
     {% extends 'base.html' %}
 
     {% block content %}
         <h1>Welcome User!</h1>
-        <form action="/calcs" method="post">
+
+
+        <form action="/summary" method="post">
             <label for="income">Income: </label>
             <input type="number" name="income" id="income">
+
+            <label for="descriptionI">Description: </label>
+            <input type="text" name="descriptionI" id="descriptionI">
+
+            <input type="submit" value="submit" id="submitIncome">
+        </form>
+
+
+        <form action="/summary" method="post">
 
             <label for="expense">Expense: </label>
             <input type="number" name="expense" id="expense">
 
-            <input type="submit" value="submit" id="submit">
+            <label for="descriptionE">Description: </label>
+            <input type="text" name="descriptionE" id="descriptionE">
 
-            {{ form.hidden_tag() }}
-            <div>
-                {{ form.name.label }}
-                {{ form.submit() }}
-            </div>
+            <input type="submit" value="submit" id="submitExpense">
         </form>
+
+
     {% endblock %}
 
 </body>

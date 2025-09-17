@@ -1,34 +1,45 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
-
-from Homework.BudgetBuddyPython2.BudgetManager import BudgetManager
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from BudgetManager import BudgetManager
+from classes.ExpenseEntry import ExpenseEntry
+from classes.IncomeEntry import IncomeEntry
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
+
+agent = BudgetManager()
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/summary')
+
+@app.route('/summary', methods=['GET', 'POST'])
 def summary():
-    return render_template('summary.html')
 
-@app.route('/income', methods=['POST'])
-def calcs():
-    budget = BudgetManager()
+    if request.method == 'POST':
 
-    new_expense = float(request.form['expense'])
-    new_income = float(request.form['income'])
+        income_entry = float(request.form.get('income', 0) or 0)
+        expense_entry = float(request.form.get('expense', 0) or 0)
+        description_i = request.form.get('descriptionI', "No description added") or "No description added"
+        description_e = request.form.get('descriptionE', "No description added") or "No description added"
 
-    if new_expense > 0:
-        expense = ExpenseEntry(
-    if new_income > 0:
+        if income_entry > 0:
+            income_obj = IncomeEntry(income_entry, description_i)
+            agent.add_income(income_obj)
+            session['income'] = income_obj.get_amount()
 
+        if expense_entry > 0:
+            expense_obj = ExpenseEntry(expense_entry, description_e)
+            agent.add_expense(expense_obj)
+            session['expense'] = expense_obj.get_amount()
 
+    session['agent_tot_inc'] = agent.get_total_income()
+    session['agent_tot_exp'] = agent.get_total_expense()
+    session['agent_net_tot'] = agent.get_net_total()
+    incomes_list = agent.incomes
+    expenses_list = agent.expenses
 
-
-    return redirect('summary.html', )
-
+    return render_template('summary.html', incomes_list=incomes_list, expenses_list=expenses_list)
 
 
 @app.errorhandler(404)
@@ -36,6 +47,5 @@ def page_not_found(e):
     return render_template('404.html', error=e)
 
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

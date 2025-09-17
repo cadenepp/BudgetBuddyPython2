@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Summary Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='summary.css') }}">
 </head>
 <body>
+
     {% extends 'base.html' %}
 
     {% block content %}
-        <p>hello</p>
+
+    <p>Income Entered: {{ session['income'] }}</p>
+    <p>Expense Entered: {{ session['expense'] }}</p>
+    <p>Total Income: {{ session['agent_tot_inc'] }}</p>
+    <p>Total Expense: {{ session['agent_tot_exp'] }}</p>
+    <p>Net Total: {{ session['agent_net_tot'] }} </p>
+
+
+    <h2>Income Logs: </h2>
+    {% for i in incomes_list %}
+        <p>Income #{{ loop.index }}: {{ i.get_amount() }} Description: {{ i.description }} </p>
+    {% endfor %}
+
+    <h2>Expense Logs: </h2>
+    {% for e in expenses_list %}
+        <p>Expense #{{ loop.index }}: {{ e.get_amount() }} Description: {{ e.description }} </p>
+    {% endfor %}
+
     {% endblock %}
+
 </body>
 </html>
