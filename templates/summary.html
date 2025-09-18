@@ -11,11 +11,38 @@
 
     {% block content %}
 
-    <p>Income Entered: {{ session['income'] }}</p>
-    <p>Expense Entered: {{ session['expense'] }}</p>
-    <p>Total Income: {{ session['agent_tot_inc'] }}</p>
-    <p>Total Expense: {{ session['agent_tot_exp'] }}</p>
-    <p>Net Total: {{ session['agent_net_tot'] }} </p>
+    {% if session.income is defined %}
+        <p>Income Entered: {{ session['income'] | format_price() }}</p>
+    {% else %}
+        <p>Income Entered: $0.00</p>
+    {% endif %}
+
+    {% if session.expense is defined %}
+        <p>Expense Entered: {{ session['expense'] | format_price() }}</p>
+    {% else %}
+        <p>Expense Entered: $0.00</p>
+    {% endif %}
+
+
+    {% if session.agent_tot_inc is defined %}
+        <p>Total Income: {{ session['agent_tot_inc'] | format_price() }}</p>
+    {% else %}
+        <p>Total Income: $0.00</p>
+    {% endif %}
+
+    {% if session.agent_tot_exp is defined %}
+        <p>Total Expense: {{ session['agent_tot_exp'] | format_price() }}</p>
+    {% else %}
+        <p>Total Expense: $0.00</p>
+    {% endif %}
+
+    {% if session.agent_net_tot is defined %}
+        <p>Net Total: {{ session['agent_net_tot'] | format_price }} </p>
+    {% else %}
+        <p>Net Total: $0.00</p>
+    {% endif %}
+
+
 
 
     <h2>Income Logs: </h2>
